@@ -8,21 +8,81 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Pilha p;
+    private String digitando = "";
+
+    private EditText edtValue;
+    private Button btnClean;
+
+    private Pilha p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final EditText edtValue = findViewById(R.id.edtValue);
+        edtValue = findViewById(R.id.edtValue);
+        btnClean = findViewById(R.id.btnClean);
+
         Button btnFav01 = findViewById(R.id.btnFav01);
+        Button btnFav02 = findViewById(R.id.btnFav02);
+        Button btnFav03 = findViewById(R.id.btnFav03);
+        Button btnFav04 = findViewById(R.id.btnFav04);
+
+        Button buttonLeft = findViewById(R.id.buttonLeft);
+        buttonLeft.setOnClickListener(this);
+        Button buttonRight = findViewById(R.id.buttonRight);
+        buttonRight.setOnClickListener(this);
+
+        Button buttonSom = findViewById(R.id.buttonSom);
+        buttonSom.setOnClickListener(this);
+        Button buttonSub = findViewById(R.id.buttonSub);
+        buttonSub.setOnClickListener(this);
+        Button buttonMul = findViewById(R.id.buttonMul);
+        buttonMul.setOnClickListener(this);
+        Button buttonDiv = findViewById(R.id.buttonDiv);
+        buttonDiv.setOnClickListener(this);
+
+        Button buttonA = findViewById(R.id.buttonA);
+        buttonA.setOnClickListener(this);
+        Button buttonB = findViewById(R.id.buttonB);
+        buttonB.setOnClickListener(this);
+        Button buttonC = findViewById(R.id.buttonC);
+        buttonC.setOnClickListener(this);
+        Button buttonD = findViewById(R.id.buttonD);
+        buttonD.setOnClickListener(this);
+        Button buttonE = findViewById(R.id.buttonE);
+        buttonE.setOnClickListener(this);
+
         Button btnConvert = findViewById(R.id.btnConvert);
         final TextView txtResult = findViewById(R.id.txtResult);
 
         btnFav01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String notacao = "A+B*C";
+                txtResult.setText(converteNPR(notacao));
+            }
+        });
+
+        btnFav02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String notacao = "A*(B+C)";
+                txtResult.setText(converteNPR(notacao));
+            }
+        });
+
+        btnFav03.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String notacao = "(A+B)/(C-D)";
+                txtResult.setText(converteNPR(notacao));
+            }
+        });
+
+        btnFav04.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                String notacao = "A+B*C";
@@ -30,6 +90,15 @@ public class MainActivity extends AppCompatActivity {
                 // Resultado AB+CD-/E*
 
                 txtResult.setText(converteNPR(notacao));
+            }
+        });
+
+        btnClean.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                digitando = "";
+                txtResult.setText("Resultado");
+                edtValue.setText("");
             }
         });
 
@@ -86,5 +155,58 @@ public class MainActivity extends AppCompatActivity {
         while (!p.isEmpty())
             npr += p.pop();
         return npr;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonLeft:
+                digitando += "(";
+                edtValue.setText(digitando);
+                break;
+            case R.id.buttonRight:
+                digitando += ")";
+                edtValue.setText(digitando);
+                break;
+            case R.id.buttonSom:
+                digitando += "+";
+                edtValue.setText(digitando);
+                break;
+            case R.id.buttonSub:
+                digitando += "-";
+                edtValue.setText(digitando);
+                break;
+            case R.id.buttonMul:
+                digitando += "*";
+                edtValue.setText(digitando);
+                break;
+            case R.id.buttonDiv:
+                digitando += "/";
+                edtValue.setText(digitando);
+                break;
+            case R.id.buttonA:
+                digitando += "A";
+                edtValue.setText(digitando);
+                break;
+            case R.id.buttonB:
+                digitando += "B";
+                edtValue.setText(digitando);
+                break;
+            case R.id.buttonC:
+                digitando += "C";
+                edtValue.setText(digitando);
+                break;
+            case R.id.buttonD:
+                digitando += "D";
+                edtValue.setText(digitando);
+                break;
+            case R.id.buttonE:
+                digitando += "E";
+                edtValue.setText(digitando);
+                break;
+            default:
+                break;
+        }
+
     }
 }
