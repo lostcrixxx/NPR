@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String digitando = "";
 
     private EditText edtValue;
-    private Button btnClean;
+    private Button btnClean, btnBackspace;
 
     private Pilha p;
 
@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         edtValue = findViewById(R.id.edtValue);
         btnClean = findViewById(R.id.btnClean);
+        btnBackspace = findViewById(R.id.btnBackspace);
 
         Button btnFav01 = findViewById(R.id.btnFav01);
         Button btnFav02 = findViewById(R.id.btnFav02);
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 String notacao = "A+B*C";
+                edtValue.setText(notacao);
                 txtResult.setText(converteNPR(notacao));
             }
         });
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 String notacao = "A*(B+C)";
+                edtValue.setText(notacao);
                 txtResult.setText(converteNPR(notacao));
             }
         });
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 String notacao = "(A+B)/(C-D)";
+                edtValue.setText(notacao);
                 txtResult.setText(converteNPR(notacao));
             }
         });
@@ -89,7 +93,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String notacao = "(A+B)/(C-D)*E";
                 // Resultado AB+CD-/E*
 
+                edtValue.setText(notacao);
                 txtResult.setText(converteNPR(notacao));
+            }
+        });
+
+        btnBackspace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str = edtValue.getText().toString();
+                if (str.length() >1 ) {
+                    str = str.substring(0, str.length() - 1);
+                    edtValue.setText(str);
+                }
+                else if (str.length() <=1 ) {
+                    edtValue.setText("");
+                }
             }
         });
 
