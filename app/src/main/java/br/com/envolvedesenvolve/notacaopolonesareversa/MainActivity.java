@@ -11,10 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private String digitando = "";
-
     private EditText edtValue;
     private Button btnClean, btnBackspace;
-
     private Pilha p;
 
     @Override
@@ -178,54 +176,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.buttonLeft:
-                digitando += "(";
-                edtValue.setText(digitando);
-                break;
-            case R.id.buttonRight:
-                digitando += ")";
-                edtValue.setText(digitando);
-                break;
-            case R.id.buttonSom:
-                digitando += "+";
-                edtValue.setText(digitando);
-                break;
-            case R.id.buttonSub:
-                digitando += "-";
-                edtValue.setText(digitando);
-                break;
-            case R.id.buttonMul:
-                digitando += "*";
-                edtValue.setText(digitando);
-                break;
-            case R.id.buttonDiv:
-                digitando += "/";
-                edtValue.setText(digitando);
-                break;
-            case R.id.buttonA:
-                digitando += "A";
-                edtValue.setText(digitando);
-                break;
-            case R.id.buttonB:
-                digitando += "B";
-                edtValue.setText(digitando);
-                break;
-            case R.id.buttonC:
-                digitando += "C";
-                edtValue.setText(digitando);
-                break;
-            case R.id.buttonD:
-                digitando += "D";
-                edtValue.setText(digitando);
-                break;
-            case R.id.buttonE:
-                digitando += "E";
-                edtValue.setText(digitando);
-                break;
-            default:
-                break;
+        int id = v.getId();
+        if (id == R.id.buttonLeft) {
+            digitando += "(";
+        } else if (id == R.id.buttonRight) {
+            digitando += ")";
+        } else if (id == R.id.buttonSom) {
+            digitando += "+";
+        } else if (id == R.id.buttonSub) {
+            digitando += "-";
+        } else if (id == R.id.buttonMul) {
+            digitando += "*";
+        } else if (id == R.id.buttonDiv) {
+            digitando += "/";
+        } else if (id == R.id.buttonA) {
+            digitando += "A";
+        } else if (id == R.id.buttonB) {
+            digitando += "B";
+        } else if (id == R.id.buttonC) {
+            digitando += "C";
+        } else if (id == R.id.buttonD) {
+            digitando += "D";
+        } else if (id == R.id.buttonE) {
+            digitando += "E";
         }
-
+        edtValue.setText(digitando);
     }
 }
