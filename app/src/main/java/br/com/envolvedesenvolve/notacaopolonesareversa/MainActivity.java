@@ -11,8 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private String digitando = "";
+    private TextView txtResult;
     private EditText edtValue;
-    private Button btnClean, btnBackspace;
+    private Button btnClean, btnBackspace, btnConvert;
     private Pilha p;
 
     @Override
@@ -23,93 +24,81 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         edtValue = findViewById(R.id.edtValue);
         btnClean = findViewById(R.id.btnClean);
         btnBackspace = findViewById(R.id.btnBackspace);
+        txtResult = findViewById(R.id.txtResult);
+        btnConvert = findViewById(R.id.btnConvert);
 
-        Button btnFav01 = findViewById(R.id.btnFav01);
-        Button btnFav02 = findViewById(R.id.btnFav02);
-        Button btnFav03 = findViewById(R.id.btnFav03);
-        Button btnFav04 = findViewById(R.id.btnFav04);
+        configurarBotoes();
+        configurarBotoesFavoritos();
+        configurarBotaoBackspace();
+        configurarBotaoClean();
+        configurarBotaoConvert();
+    }
 
-        Button buttonLeft = findViewById(R.id.buttonLeft);
-        buttonLeft.setOnClickListener(this);
-        Button buttonRight = findViewById(R.id.buttonRight);
-        buttonRight.setOnClickListener(this);
+    private void configurarBotoes() {
+        Button[] botoes = new Button[] {
+                findViewById(R.id.buttonLeft),
+                findViewById(R.id.buttonRight),
+                findViewById(R.id.buttonSom),
+                findViewById(R.id.buttonSub),
+                findViewById(R.id.buttonMul),
+                findViewById(R.id.buttonDiv),
+                findViewById(R.id.buttonA),
+                findViewById(R.id.buttonB),
+                findViewById(R.id.buttonC),
+                findViewById(R.id.buttonD),
+                findViewById(R.id.buttonE)
+        };
 
-        Button buttonSom = findViewById(R.id.buttonSom);
-        buttonSom.setOnClickListener(this);
-        Button buttonSub = findViewById(R.id.buttonSub);
-        buttonSub.setOnClickListener(this);
-        Button buttonMul = findViewById(R.id.buttonMul);
-        buttonMul.setOnClickListener(this);
-        Button buttonDiv = findViewById(R.id.buttonDiv);
-        buttonDiv.setOnClickListener(this);
+        String[] textos = new String[] {"(", ")", "+", "-", "*", "/", "A", "B", "C", "D", "E"};
 
-        Button buttonA = findViewById(R.id.buttonA);
-        buttonA.setOnClickListener(this);
-        Button buttonB = findViewById(R.id.buttonB);
-        buttonB.setOnClickListener(this);
-        Button buttonC = findViewById(R.id.buttonC);
-        buttonC.setOnClickListener(this);
-        Button buttonD = findViewById(R.id.buttonD);
-        buttonD.setOnClickListener(this);
-        Button buttonE = findViewById(R.id.buttonE);
-        buttonE.setOnClickListener(this);
+        for (int i = 0; i < botoes.length; i++) {
+            final String texto = textos[i];
+            botoes[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    digitando += texto;
+                    edtValue.setText(digitando);
+                }
+            });
+        }
+    }
 
-        Button btnConvert = findViewById(R.id.btnConvert);
-        final TextView txtResult = findViewById(R.id.txtResult);
+    private void configurarBotoesFavoritos() {
+        Button[] botoes = new Button[] {
+                findViewById(R.id.btnFav01),
+                findViewById(R.id.btnFav02),
+                findViewById(R.id.btnFav03),
+                findViewById(R.id.btnFav04)
+        };
 
-        btnFav01.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String notacao = "A+B*C";
-                edtValue.setText(notacao);
-                txtResult.setText(converteNPR(notacao));
-            }
-        });
+        String[] textos = new String[] {"A+B*C", "A*(B+C)", "(A+B)/(C-D)", "(A+B)/(C-D)*E"};
 
-        btnFav02.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String notacao = "A*(B+C)";
-                edtValue.setText(notacao);
-                txtResult.setText(converteNPR(notacao));
-            }
-        });
+        for (int i = 0; i < botoes.length; i++) {
+            final String texto = textos[i];
+            botoes[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    edtValue.setText(texto);
+                    txtResult.setText(converteNPR(texto));
+                }
+            });
+        }
+    }
 
-        btnFav03.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String notacao = "(A+B)/(C-D)";
-                edtValue.setText(notacao);
-                txtResult.setText(converteNPR(notacao));
-            }
-        });
-
-        btnFav04.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                String notacao = "A+B*C";
-                String notacao = "(A+B)/(C-D)*E";
-                // Resultado AB+CD-/E*
-
-                edtValue.setText(notacao);
-                txtResult.setText(converteNPR(notacao));
-            }
-        });
-
+    private void configurarBotaoBackspace() {
         btnBackspace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String str = edtValue.getText().toString();
-                if (str.length() >1 ) {
+                if (str.length() > 0) {
                     str = str.substring(0, str.length() - 1);
                     edtValue.setText(str);
                 }
-                else if (str.length() <=1 ) {
-                    edtValue.setText("");
-                }
             }
         });
+    }
 
+    private void configurarBotaoClean() {
         btnClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,15 +107,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 edtValue.setText("");
             }
         });
+    }
 
+    private void configurarBotaoConvert() {
         btnConvert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String value = edtValue.getText().toString(); // infixa
-
-//                Log.e("teste", converteNPR(notacao));
-                txtResult.setText(converteNPR(value)); // pósfixa
-//                Log.e("teste", p.print());
+                String value = edtValue.getText().toString();
+                txtResult.setText(converteNPR(value));
             }
         });
     }
